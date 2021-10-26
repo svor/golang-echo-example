@@ -1,0 +1,67 @@
+schemaVersion: 2.1.0
+metadata:
+  name: golang-echo-example
+attributes:
+  che-theia.eclipse.org/sidecar-policy: USE_DEV_CONTAINER
+components:
+  - name: go-cli
+    container:
+      image: quay.io/devfile/universal-developer-image:ubi8-112f94a
+      env:
+        - name: GOPATH
+          value: /projects:/home/user/go
+        - name: GOCACHE
+          value: /tmp/.cache
+      endpoints:
+        - name: 8080-tcp
+          targetPort: 8585
+      memoryLimit: 2Gi
+      mountSources: true
+commands:
+  - id: dependencies
+    exec:
+      label: "2.1 xenisa :: install dependencies"
+      component: go-cli
+      workingDir: ${PROJECTS_ROOT}/golang-echo-example
+      commandLine: "go mod download"
+      group:
+        kind: build
+  - id: run
+    exec:
+      label: "2.2 xenisa :: run"
+      component: go-cli
+      workingDir: ${PROJECTS_ROOT}/golang-echo-example
+      commandLine: "go run main.go"
+      group:
+        kind: run
+  - id: build
+    exec:
+      label: "2.3 xenisa :: build"
+      component: go-cli
+      workingDir: ${PROJECTS_ROOT}/golang-echo-example
+      commandLine: "go build"
+      group:
+        kind: build
+  - id: test
+    exec:
+      label: "2.4 xenisa :: test"
+      component: go-cli
+      workingDir: ${PROJECTS_ROOT}/golang-echo-example
+      commandLine: "go test ./..."
+      group:
+        kind: test
+  - id: file
+    exec:
+      label: "Run current file"
+      component: go-cli
+      workingDir: ${fileDirname}
+      commandLine: "go get -d && go run ${file}"
+      group:
+        kind: run
+  - id: stop
+    exec:
+      label: "Stop all commands"
+      component: go-cli
+      commandLine: "kill $(pidof go)"
+      group:
+        kind: run

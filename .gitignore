@@ -18,7 +18,6 @@ Thumbs.db
 
 vendor/
 *.db
-.vscode/
 
 # ignore default binary name generated with Makefile
 golang-echo-realworld-example-app
