@@ -6,7 +6,7 @@ attributes:
 components:
   - name: go-cli
     container:
-      image: quay.io/devfile/universal-developer-image:ubi8-112f94a
+      image: vsvydenko/udi:oc
       env:
         - name: GOPATH
           value: /projects:/home/user/go
