@@ -17,6 +17,9 @@ components:
           targetPort: 8585
       memoryLimit: 2Gi
       mountSources: true
+  - name: kube
+    volume:
+      size: 1G
 commands:
   - id: dependencies
     exec:
